@@ -27,7 +27,7 @@ export const mastra = new Mastra({
   server: {
     apiRoutes: [
       chatRoute({
-        path: "/chat/:agentId",
+        path: "api/chat/:agentId",
       }),
     ],
   },

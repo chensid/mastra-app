@@ -34,11 +34,11 @@ export const weatherAgent = new Agent({
   scorers: {
     toolCallAccuracy: {
       scorer: toolCallAccuracyScorer,
-      sampling: { type: "ratio", rate: 1.0 }
+      sampling: { type: "ratio", rate: 0.5 }
     },
     relevancy: {
       scorer: answerRelevancyScorer,
-      sampling: { type: "ratio", rate: 1.0 }
+      sampling: { type: "ratio", rate: 0.5 }
     },
   },
 });

@@ -1,12 +1,15 @@
-import { deepseek } from '@ai-sdk/deepseek';
-import { Agent } from '@mastra/core/agent';
-import { Memory } from '@mastra/memory';
-import { LibSQLStore } from '@mastra/libsql';
-import { weatherTool } from '../tools/weather-tool';
+import { deepseek } from "@ai-sdk/deepseek";
+import { Agent } from "@mastra/core/agent";
+import { Memory } from "@mastra/memory";
+import { LibSQLStore } from "@mastra/libsql";
+import { weatherTool } from "../tools/weather-tool";
+import { toolCallAccuracyScorer } from "../scorers/llm-tool-call-accuracy-scorer";
+import { answerRelevancyScorer } from "../scorers/answer-relevancy-scorer";
 
 export const weatherAgent = new Agent({
-  name: 'Weather Agent',
-  description: 'A helpful weather assistant that provides accurate weather information and can help planning activities based on the weather.',
+  name: "Weather Agent",
+  description:
+    "A helpful weather assistant that provides accurate weather information and can help planning activities based on the weather.",
   instructions: `
       You are a helpful weather assistant that provides accurate weather information and can help planning activities based on the weather.
 
@@ -21,11 +24,19 @@ export const weatherAgent = new Agent({
 
       Use the weatherTool to fetch current weather data.
 `,
-  model: deepseek('deepseek-chat'),
+  model: deepseek("deepseek-chat"),
   tools: { weatherTool },
   memory: new Memory({
     storage: new LibSQLStore({
-      url: 'file:../mastra.db', // path is relative to the .mastra/output directory
+      url: "file:../mastra.db", // path is relative to the .mastra/output directory
     }),
   }),
+  scorers: {
+    toolCallAccuracy: {
+      scorer: toolCallAccuracyScorer,
+    },
+    relevancy: {
+      scorer: answerRelevancyScorer,
+    },
+  },
 });

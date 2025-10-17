@@ -5,10 +5,12 @@ import { weatherWorkflow } from "./workflows/weather-workflow";
 import { weatherAgent } from "./agents/weather-agent";
 import { weatherMCPServer } from "./mcp/weather-mcp-server";
 import { chatRoute } from "@mastra/ai-sdk";
+import { testAgent } from "./agents/test-agent";
+import { testWorkflow } from "./workflows/test-workflow";
 
 export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent },
+  workflows: { weatherWorkflow, testWorkflow },
+  agents: { weatherAgent, testAgent },
   mcpServers: { weatherMCPServer },
   storage: new LibSQLStore({
     // stores observability, scores, ... into memory storage, if it needs to persist, change to file:../mastra.db
